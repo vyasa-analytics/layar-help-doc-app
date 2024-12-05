@@ -2,7 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { OpenAI } = require("openai");
-const dotenv = require("dotenv")
+const dotenv = require("dotenv");
+const axios = require("axios");
 
 const app = express();
 app.use(cors());
@@ -10,29 +11,55 @@ app.use(bodyParser.json());
 dotenv.config();
 
 
-const openai = new OpenAI({
-    apiKey: process.env.openaikey,
-});
+async function getLayarToken(envURL, clientId, clientSecret) {
+    return axios({
+      method: 'post',
+      url: `https://${envURL}/connect/oauth/token`, 
+      headers: { 'Accept': 'application/json' },
+      auth: { username: clientId, password: clientSecret },
+      params: { 
+        grant_type: 'client_credentials',
+        scope: 'read write'
+      }
+    }).then(res => res.data.access_token);
+   }
 
 app.post("/api/chat", async (req, res) => {
+
+    env_url = 'dldev01.vyasa.com'; 
+    client_id = process.env.client_id;  
+    client_secret = process.env.client_secret; 
+    const generateURL = `https://${env_url}/layar/gpt/generate`;
+
+    const token = await getLayarToken(env_url, client_id, client_secret);
     const { message } = req.body;
+
+    generatePayload = {
+        "content" : message,
+        "task" : "generate"
+    };
 
     if (!message) {
         return res.status(400).send({ error: "Message is required" });
     }
 
     try {
-        const response = await openai.chat.completions.create({
-            model: "gpt-4",
-            messages: [{ role: "user", content: message }],
-        });
+        const response = await axios.post(generateURL, generatePayload, {
+            headers: {
+                'Accept' : 'application/json',
+                'Authorization' : `Bearer ${token}`,
+                'X-Vyasa-Client-Hint': 'layar'
+            }
+        }
+        )
 
-        const reply = response.choices[0].message.content;
-        res.send({ reply });
+        const generatedContent = response.data.content;
+        res.send({ generatedContent });
     } catch (error) {
         console.error("Error calling OpenAI API:", error.response?.data || error.message);
         res.status(500).send({ error: "Error generating response" });
     }
+    
 });
 
 // Start server
