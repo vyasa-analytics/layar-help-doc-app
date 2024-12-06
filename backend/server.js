@@ -32,13 +32,20 @@ app.post("/api/chat", async (req, res) => {
     const generateURL = `https://${env_url}/layar/gpt/generate`;
 
     const token = await getLayarToken(env_url, client_id, client_secret);
-    const { message } = req.body;
+    const message = req.body.message;
+    const accessCode = req.body.accesscode;
 
-    generatePayload = {
-        "content" : message,
-        "task" : "generate"
-    };
 
+    const prompt = `Answer the following question using only the source material provided in the context, provide evidence substantiating your claims. Question : ${message}`;
+    const generatePayload = {
+        content: `Answer questions involving the attached context using only the source material, the question is: ${message}`,
+        sources: [{
+          savedListId: accessCode
+        }],
+        task: "generate"
+       };
+
+    console.log(generatePayload);
     if (!message) {
         return res.status(400).send({ error: "Message is required" });
     }
@@ -53,10 +60,11 @@ app.post("/api/chat", async (req, res) => {
         }
         )
 
+        console.log(response.data);
         const generatedContent = response.data.content;
         res.send({ generatedContent });
     } catch (error) {
-        console.error("Error calling OpenAI API:", error.response?.data || error.message);
+        console.error("Error calling Layar API:", error.response?.data || error.message);
         res.status(500).send({ error: "Error generating response" });
     }
     
