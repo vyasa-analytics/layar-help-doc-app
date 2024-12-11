@@ -83,6 +83,7 @@ const App = () => {
        onClick={sendMessage} 
        style={{ padding: "10px" }}
        disabled={!userCode}
+       title={!userCode ? "Please enter an access code" : ""}
      >
        Send
      </button>
