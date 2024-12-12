@@ -22,8 +22,8 @@ if [ ! -f .env ]; then
     read -p "Enter your client secret: " client_secret
 
     cat <<EOF > .env
-CLIENT_ID=$client_id
-CLIENT_SECRET=$client_secret
+client_id="$client_id"
+client_secret="$client_secret"
 EOF
     echo ".env file created successfully."
 fi
