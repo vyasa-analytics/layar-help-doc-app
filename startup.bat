@@ -16,8 +16,8 @@ if not exist .env (
     set /p client_id=Enter your client ID: 
     set /p client_secret=Enter your client secret: 
 
-    echo CLIENT_ID=%client_id%> .env
-    echo CLIENT_SECRET=%client_secret%>> .env
+    echo client_id="%client_id%"> .env
+    echo client_secret="%client_secret%">> .env
 
     echo .env file created successfully.
 )
