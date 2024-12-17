@@ -26,7 +26,7 @@ async function getLayarToken(envURL, clientId, clientSecret) {
 
 app.post("/api/chat", async (req, res) => {
 
-    env_url = 'dldev01.vyasa.com'; 
+    env_url = 'api-dev.certaragpt.com'; 
     client_id = process.env.client_id;  
     client_secret = process.env.client_secret; 
     const generateURL = `https://${env_url}/layar/gpt/generate`;
