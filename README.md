@@ -15,13 +15,28 @@ The prerequisites for this system are below, however the startup scripts will in
 
 ## Setup and Run
 
-There are startup scripts that have been included within the repository that will install all necessary prerequisite libraries and frameworks and deploy the application locally. Once you have cloned the repo, simply run the script. If you are a UNIX (MacOS, Linux) user, please run the following command to set up and start the application:
+There are some scripts included for your convenience to install prerequisites and deploy the application locally depending on your environment.
+
+# MacOS
+
+ If you are a UNIX (MacOS, Linux) user, please run the following command to set up and start the application:
 
 ```bash
 ./startup.sh
 ```
 
-If you are using a Windows environment, run the equivalent `startup.bat` script to setup and start the application. 
+# Windows
+
+If you are using a Windows environment, run the equivalent `startup.bat` script to setup and start the application. If Windows Defender prevents this script from running, you can install Node.JS + npm manually and run the setup command in a terminal to setup and deploy the application.
+
+- **Node.js** and **npm**: Download and install from [Node.js](https://nodejs.org/).
+
+1. Open a terminal/command prompt and navigate to the project directory.
+
+2. Run the setup command:
+   ```bash
+   npm run setup
+
 
 ## Running and Using the application
 
