@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { OpenAI } = require("openai");
 const dotenv = require("dotenv");
 const axios = require("axios");
 
@@ -26,7 +25,7 @@ async function getLayarToken(envURL, clientId, clientSecret) {
 
 app.post("/api/chat", async (req, res) => {
 
-    env_url = 'api-dev.certaragpt.com'; 
+    env_url = 'dldev01.vyasa.com'; 
     client_id = process.env.client_id;  
     client_secret = process.env.client_secret; 
     const generateURL = `https://${env_url}/layar/gpt/generate`;
